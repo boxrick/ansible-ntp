@@ -10,11 +10,11 @@ Vagrant.configure("2") do |config|
   # Virtualbox provider
   config.vm.provider "virtualbox" do |v, override|
     # Ubuntu Bionic 18.04
-    #override.vm.box = "ubuntu/bionic64"
+    override.vm.box = "ubuntu/bionic64"
     # CentOS 7
     #override.vm.box = "centos/7"
     # Ubuntu Xenial 16.04
-    override.vm.box = "ubuntu/xenial64"
+    # override.vm.box = "ubuntu/xenial64"
   end
 
   # Docker provider
@@ -24,7 +24,10 @@ Vagrant.configure("2") do |config|
     # Systemd needs priviledged
     d.privileged = true
     # Custom image with ssh and systemd inside
-    d.image = "boxrick/docker-systemd-ssh-vagrant"
+    # Ubuntu Xenial 16.04
+    #d.image = "boxrick/xenial-docker-ansible"
+    # Ubuntu Bionic 18.04
+    d.image = "boxrick/bionic-docker-ansible"
     # We can ssh to this docker image and it stays running forever
     d.has_ssh = true
     d.remains_running = true
