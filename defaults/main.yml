@@ -1,0 +1,20 @@
+---
+# name: defaults
+# description: Default variables
+
+# Packages
+ntp_install_packages:
+    - ntp
+    - ntpdate
+
+# What is the path of the config for ntp
+ntp_install_path: "/etc/ntp.conf"
+
+# List of NTP servers
+ntp_install_ntp_servers:
+    - 0.uk.pool.ntp.org
+    - 1.uk.pool.ntp.org
+
+ntp_install_drift_path: /var/lib/ntp/ntp.drift    # Drift location
+ntp_install_force_update: true                    # Do we wish to force an NTPdate on config change
+ntp_install_timezone: /usr/share/zoneinfo/UTC     # Default timezone

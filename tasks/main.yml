@@ -1,0 +1,9 @@
+---
+# role-method: main
+# description: Include all our task files
+
+- include_tasks: install.yml
+  when: ansible_virtualization_type|default('unknown') != 'lxc'
+
+- include_tasks: configure.yml
+  when: ansible_virtualization_type|default('unknown') != 'lxc'

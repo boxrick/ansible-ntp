@@ -1,0 +1,18 @@
+---
+# role-method: configure
+# description: Configure all the config files
+
+- name: Create a configuration for NTP
+  template:
+    src: ntp.conf.j2
+    dest: "{{ ntp_install_path }}"
+  notify:
+    - force_update
+    - restart_ntp
+
+- name: Set timezone for this box
+  file:
+    src: "{{ ntp_install_timezone }}"
+    dest: /etc/localtime
+    force: yes
+    state: link

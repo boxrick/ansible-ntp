@@ -1,0 +1,15 @@
+---
+# role-method: install
+# description: Install our required packages for ansible-ntp
+
+- name: Install all required packages for ansible-ntp
+  package:
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{{ ntp_install_packages }}"
+
+- name: Enable and start ntp
+  service:
+    name: ntp
+    state: started
+    enabled: yes
