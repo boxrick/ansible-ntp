@@ -24,4 +24,4 @@ script:
   # Check Role
   - vagrant up --provider docker
   # Check for idempotence
-  - vagrant provision | tee >(grep -q 'changed=0'
+  - vagrant provision | tee >(grep -q 'changed=0')
