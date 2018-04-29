@@ -1,5 +1,6 @@
 ansible-ntp
 =========
+[![Build Status](https://travis-ci.org/boxrick/ansible-ntp.svg?branch=master)](https://travis-ci.org/boxrick/ansible-ntp)
 
 This role installs and configures ntp with some simple defaults.
 
