@@ -1,0 +1,22 @@
+language: python
+python: "2.7"
+sudo: required
+
+env:
+  - distro: ubuntu1804
+
+before_install:
+  - sudo apt-get update -qq
+
+services:
+  - docker
+
+install:
+  # Install Ansible and Vagrant
+  - pip install ansible
+  - sudo apt install wget -y
+  - wget https://releases.hashicorp.com/vagrant/2.0.4/vagrant_2.0.4_x86_64.deb
+  - sudo apt install ./vagrant_2.0.4_x86_64.deb -y
+script:
+  - cd ./tests/
+  - vagrant up --provider docker
