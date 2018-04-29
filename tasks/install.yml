@@ -7,8 +7,6 @@
     update_cache: yes
     cache_valid_time: 86400
 
-- shell: 'echo hello'
-
 - name: Install all required packages for ansible-ntp
   package:
     pkg: "{{ item }}"

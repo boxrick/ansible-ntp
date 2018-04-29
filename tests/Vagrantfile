@@ -5,32 +5,50 @@ if ENV['BRANCH_NAME'] && ENV['BUILD_NUMBER']
 end
 
 Vagrant.configure("2") do |config|
-  config.vm.define current_role
 
-  # Virtualbox provider
-  config.vm.provider "virtualbox" do |v, override|
-    # Ubuntu Bionic 18.04
-    override.vm.box = "ubuntu/bionic64"
-    # CentOS 7
-    #override.vm.box = "centos/7"
-    # Ubuntu Xenial 16.04
-    # override.vm.box = "ubuntu/xenial64"
+  config.vm.define "bionic", primary: true do |bionic|
+
+    # Virtualbox provider
+    bionic.vm.provider "virtualbox" do |v, override|
+      # Ubuntu Bionic 18.04
+      override.vm.box = "ubuntu/bionic64"
+    end
+
+    bionic.vm.provider "docker" do |d, override|
+      # Docker runs as root
+      override.ssh.username = 'root'
+      # Systemd needs privileged
+      d.privileged = true
+      # Custom image with ssh and systemd inside
+      # Ubuntu Bionic 18.04
+      d.image = "boxrick/bionic-docker-ansible"
+      # We can ssh to this docker image and it stays running forever
+      d.has_ssh = true
+      d.remains_running = true
+    end
   end
 
-  # Docker provider
-  config.vm.provider "docker" do |d, override|
-    # Docker runs as root
-    override.ssh.username = 'root'
-    # Systemd needs priviledged
-    d.privileged = true
-    # Custom image with ssh and systemd inside
-    # Ubuntu Xenial 16.04
-    #d.image = "boxrick/xenial-docker-ansible"
-    # Ubuntu Bionic 18.04
-    d.image = "boxrick/bionic-docker-ansible"
-    # We can ssh to this docker image and it stays running forever
-    d.has_ssh = true
-    d.remains_running = true
+  config.vm.define "xenial", autostart: false do |xenial|
+
+    # Virtualbox provider
+    xenial.vm.provider "virtualbox" do |v, override|
+      # Ubuntu Xenial 16.04
+      override.vm.box = "ubuntu/xenial64"
+    end
+
+    # Docker provider
+    xenial.vm.provider :docker do |d, override|
+      # Docker runs as root
+      override.ssh.username = 'root'
+      # Systemd needs privileged
+      d.privileged = true
+      # Custom image with ssh and systemd inside
+      # Ubuntu Xenial 16.04
+      d.image = "boxrick/xenial-docker-ansible"
+      # We can ssh to this docker image and it stays running forever
+      d.has_ssh = true
+      d.remains_running = true
+    end
   end
 
   config.vm.provision "ansible" do |ansible|

@@ -3,6 +3,9 @@ sudo: true
 
 env:
   - distro: ubuntu1804
+    container: bionic
+  - distro: ubuntu1804
+    container: xenial
 
 services:
   - docker
@@ -22,8 +25,8 @@ cache:
 script:
   - cd ./tests/
   # Check Role
-  - vagrant up --provider docker
+  - vagrant up --provider docker $container
   # Check for idempotence
   - check_changed=$(mktemp)
-  - vagrant provision | tee -a $check_changed
+  - vagrant provision $container | tee -a $check_changed
   - grep -q 'changed=0' ${check_changed} && echo 'Passed idempotence checks' || echo 'Failed idempotence checks' && exit 1
