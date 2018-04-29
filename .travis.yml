@@ -29,4 +29,6 @@ script:
   # Check for idempotence
   - check_changed=$(mktemp)
   - vagrant provision $container | tee -a $check_changed
-  - grep -q 'changed=0' ${check_changed} && echo 'Passed idempotence checks' || echo 'Failed idempotence checks' && exit 1
+  # Check if we returned a pass or fail then print message and return exit code
+  - grep -q 'changed=0' ${check_changed} && echo 'Passed idempotence checks' || echo 'Failed idempotence checks'
+  - grep -q 'changed=0' ${check_changed}
